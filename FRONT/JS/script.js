@@ -12,13 +12,15 @@ function getAllCharacter(){
         }
     })
     .then((data)=>{
+        console.log(data);
+        const {characters}=data;
         let HTML;
-        data.results.forEach((personaje)=>{
+        characters.forEach((personaje)=>{
             HTML+= `<h3>${personaje.name}</h3>
-            <img src="${personaje.image}" alt="${personaje.name}">`
+            <img src="${personaje.img}" alt="${personaje.name}">
+            <p>Espcecie: ${personaje.species}`
         })
         allCharacter.innerHTML=HTML;
-        console.log(data);
     })
     .catch(error=> console.log('Hay un error'))
 }
@@ -35,12 +37,18 @@ function getCharacter(){
             throw new error('la respuesta no es OK');
         }
         else{
-            console.log(response);
             return response.json();
         }
     })
     .then((data)=>{
-        console.log(data, 'esta es la data de getCharacter');
+        console.log(data);
+        let HTML;
+        data.results.forEach((personaje)=>{
+            HTML+= `<h3>${personaje.name}</h3>
+            <img src="${personaje.image}" alt="${personaje.name}">`
+        })
+        character.innerHTML=HTML;
+        console.log(data);
     })
     .catch(error=> console.log('Hay un error'))
 }

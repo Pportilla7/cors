@@ -9,24 +9,31 @@ app.use(cors());
 
 app.get('/characters', async (req, res)=>{
     let urlPages='https://rickandmortyapi.com/api/character';
-    console.log(urlPages);
     try{
         const response = await axios.get(urlPages);
         const {info:{pages}}=response.data;
         let characters=[];
-        for (let i=1;i++;i<=pages){
+        for (let i=1;i<=pages;i++){
             let url=`https://rickandmortyapi.com/api/character/?page=${i}`
-            console.log(url);
+            console.log(i,url);
             try{
                 const response = await axios.get(url);
                 const {results} = response.data;
-                
+                for (let result of results){
+                    const {id, name, species, image}=result;
+                    const newCharacter={
+                        id: id,
+                        name:name,
+                        species:species,
+                        img: image
+                    }
+                    characters.push(newCharacter);
+                } 
             }
             catch{
                 res.status(401).json({error:'No se puedieron obtener los personajes'});
             }
         }
-        console.log(characters)
         res.json({characters});
     }
     catch{
